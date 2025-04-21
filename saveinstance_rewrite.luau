@@ -2873,8 +2873,19 @@ httpresponse = request({
 											then
 												value = "-- [FilteringEnabled] Server Scripts are IMPOSSIBLE to save" -- TODO: Could be not just server scripts in the future
 											else
-												if OPTIONS.usekonstantdecompiler then
-													value = konstantdecompiler.decompile(instance)
+												if OPTIONS.usemedaldecompiler then
+
+value = function()
+httpresponse = request({
+        Url = "http://127.0.0.1:9002",
+        Body = base64.encode(getscriptbytecode(instance)),  -- The base64 encoded bytecode
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "text/plain"
+        },
+    })
+    return httpresponse.Body
+end
 												else
 													value = ldecompile(instance)
 												end
