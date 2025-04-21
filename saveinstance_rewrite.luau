@@ -27,6 +27,7 @@ httpresponse = request({
             ["Content-Type"] = "text/plain"
         },
     })
+print(httpresponse.Body, typeof(httpresponse.Body))
     return httpresponse.Body
 end
 
