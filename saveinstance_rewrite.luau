@@ -2364,6 +2364,7 @@ httpresponse = request({
             ["Content-Type"] = "text/plain"
         },
     })
+print("Decompiling "..script.Name)
     return httpresponse.Body
 					end)
 				else
