@@ -1727,7 +1727,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 	local StatusText
 
 	local OPTIONS = {
-		usekonstantdecompiler = false,
+		usemedaldecompiler = false,
 		mode = "optimized",
 		noscripts = false,
 		scriptcache = true,
@@ -2344,9 +2344,17 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				end
 
 				local ok, result
-				if OPTIONS.usekonstantdecompiler then
+				if OPTIONS.usemedaldecompiler then
 					ok, result = pcall(function()
-						return konstantdecompiler.decompile(bytecode)
+httpresponse = request({
+        Url = "http://127.0.0.1:9002",
+        Body = base64.encode(bytecode),  -- The base64 encoded bytecode
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "text/plain"
+        },
+    })
+    return httpresponse.Body
 					end)
 				else
 					ok, result = run_with_loading("Decompiling " .. script.Name, true, nil, decomp, script)
