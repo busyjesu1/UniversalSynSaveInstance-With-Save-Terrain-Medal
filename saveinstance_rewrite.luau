@@ -27,8 +27,7 @@ httpresponse = request({
             ["Content-Type"] = "text/plain"
         },
     })
-print(httpresponse.Body, typeof(httpresponse.Body))
-    return httpresponse.Body
+    return httpresponse and httpresponse.Body or "Failed to decompile: MEDAL"
 end
 
 local function ArrayToDict(t, hydridMode, valueOverride, typeStrict)
