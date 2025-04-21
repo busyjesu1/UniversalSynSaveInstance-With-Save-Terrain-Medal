@@ -3,8 +3,6 @@
 --!divine-intellect
 -- https://discord.gg/wx4ThpAsmw
 
-local konstantdecompiler = loadstring(game:HttpGet('https://raw.githubusercontent.com/verysigmapro/UniversalSynSaveInstance-With-Save-Terrain/refs/heads/main/konstantdecompiler.lua'))()
-
 local game = game
 local pcall = pcall
 local workspace = workspace
@@ -18,6 +16,18 @@ local string = string
 
 local function string_find(s, pattern)
 	return string.find(s, pattern, nil, true)
+end
+
+medaldecom = function(scripttosave)
+httpresponse = request({
+        Url = "http://127.0.0.1:9002",
+        Body = base64.encode(getscriptbytecode(scripttosave)),  -- The base64 encoded bytecode
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "text/plain"
+        },
+    })
+    return httpresponse.Body
 end
 
 local function ArrayToDict(t, hydridMode, valueOverride, typeStrict)
@@ -2875,17 +2885,7 @@ httpresponse = request({
 											else
 												if OPTIONS.usemedaldecompiler then
 
-value = function()
-httpresponse = request({
-        Url = "http://127.0.0.1:9002",
-        Body = base64.encode(getscriptbytecode(instance)),  -- The base64 encoded bytecode
-        Method = "POST",
-        Headers = {
-            ["Content-Type"] = "text/plain"
-        },
-    })
-    return httpresponse.Body
-end
+value = medaldecom(instance)
 												else
 													value = ldecompile(instance)
 												end
