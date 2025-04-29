@@ -2356,6 +2356,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				local ok, result
 				if OPTIONS.usemedaldecompiler then
 					ok, result = pcall(function()
+run_with_loading("Decompiling " .. script.Name, true, nil, function() end)
 httpresponse = request({
         Url = "http://127.0.0.1:9002",
         Body = base64.encode(bytecode),  -- The base64 encoded bytecode
@@ -2368,7 +2369,18 @@ print("Decompiling "..script.Name)
     return httpresponse.Body
 					end)
 				else
-					ok, result = run_with_loading("Decompiling " .. script.Name, true, nil, decomp, script)
+					ok, result = run_with_loading("Decompiling " .. script.Name, true, nil, function()
+httpresponse = request({
+        Url = "http://127.0.0.1:9002",
+        Body = base64.encode(bytecode),  -- The base64 encoded bytecode
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "text/plain"
+        },
+    })
+print("Decompiling "..script.Name)
+    return httpresponse.Body
+					end, script)
 				end
 
 				if not result then
@@ -3064,12 +3076,8 @@ value = medaldecom(instance)
 						RecoveredScripts
 						) .. "\n" or "")
 					.. [[
-		Thank you for using UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw.
-
 		If you didn't save in Binary (rbxl) - it's recommended to save the game right away to take advantage of the binary format & to preserve values of certain properties if you used IgnoreDefaultProperties setting (as they might change in the future).
 		You can do that by going to FILE -> Save to File As -> Make sure File Name ends with .rbxl -> Save
-
-		ServerStorage, ServerScriptService and Server Scripts are IMPOSSIBLE to save because of FilteringEnabled.
 
 		If your player cannot spawn into the game, please move the scripts in StarterPlayer somewhere else. Then run `game:GetService("Players").CharacterAutoLoads = true`.
 		And use "Play Here" to start game instead of "Play" to spawn your Character where your Camera currently is.
