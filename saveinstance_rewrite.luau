@@ -27,6 +27,7 @@ httpresponse = request({
             ["Content-Type"] = "text/plain"
         },
     })
+
     return httpresponse and httpresponse.Body or "Failed to decompile: MEDAL"
 end
 
@@ -2357,6 +2358,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 				if OPTIONS.usemedaldecompiler then
 					ok, result = pcall(function()
 run_with_loading("Decompiling " .. script.Name, true, nil, function() end)
+print("Decompiling "..script.Name)
+
 httpresponse = request({
         Url = "http://127.0.0.1:9002",
         Body = base64.encode(bytecode),  -- The base64 encoded bytecode
@@ -2365,11 +2368,11 @@ httpresponse = request({
             ["Content-Type"] = "text/plain"
         },
     })
-print("Decompiling "..script.Name)
     return httpresponse.Body
 					end)
 				else
 					ok, result = run_with_loading("Decompiling " .. script.Name, true, nil, function()
+print("Decompiling "..script.Name)
 httpresponse = request({
         Url = "http://127.0.0.1:9002",
         Body = base64.encode(bytecode),  -- The base64 encoded bytecode
@@ -2899,6 +2902,7 @@ print("Decompiling "..script.Name)
 												if OPTIONS.usemedaldecompiler then
 
 value = medaldecom(instance)
+run_with_loading("Decompiling " .. script.Name, true, nil, function() end)
 												else
 													value = ldecompile(instance)
 												end
